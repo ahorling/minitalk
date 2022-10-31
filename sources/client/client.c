@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/31 17:37:36 by ahorling      #+#    #+#                 */
-/*   Updated: 2022/10/31 18:40:22 by ahorling      ########   odam.nl         */
+/*   Updated: 2022/10/31 18:41:52 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ bool	parse_args(int argnum, char **arguments)
 
 	i = 0;
 	temp = true;
-	if (argument[i] == '\0')
+	if (arguments[i] == '\0')
 		return (false);
-	while (argument[i] != '\0')
+	while (arguments[i] != '\0')
 	{
 		if (i == 0)
 		{
-			if (ft_isnum(argument[i]) == false)
+			if (ft_isnum(arguments[i]) == false)
 				return (false);
-			temp = ft_isdigit(argument[i]);
+			temp = ft_isdigit(arguments[i]);
 		}
-		else if (ft_isdigit(argument[i]) == false)
+		else if (ft_isdigit(arguments[i]) == false)
 			return (false);
 		i++;
 	}
