@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/31 17:37:36 by ahorling      #+#    #+#                 */
-/*   Updated: 2022/10/31 18:43:26 by ahorling      ########   odam.nl         */
+/*   Updated: 2022/10/31 18:47:15 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	convert_to_binary(char c, int pid)
 			kill(pid, SIGUSR1);
 		else if (((c >> bit) & 1) == 0)
 			kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(125);
 		bit++;
 	}
 	return ;
