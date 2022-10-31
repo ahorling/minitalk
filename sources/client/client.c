@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/31 17:37:36 by ahorling      #+#    #+#                 */
-/*   Updated: 2022/10/31 18:24:04 by ahorling      ########   odam.nl         */
+/*   Updated: 2022/10/31 18:37:31 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	parse_args(int argnum, char **arguments)
 		}
 		if (temp == false)
 			return (false);
-		if (ft_isdigit(arguments[1][i] == 0) && temp == true)
+		if (ft_isdigit(arguments[1][i] == 0))
 			return (false);
 		i++;
 	}
