@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/31 17:37:36 by ahorling      #+#    #+#                 */
-/*   Updated: 2022/10/31 18:47:15 by ahorling      ########   odam.nl         */
+/*   Updated: 2022/11/04 19:44:22 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,57 +19,66 @@ bool	parse_args(int argnum, char **arguments)
 
 	i = 0;
 	temp = true;
-	if (arguments[1][i] == '\0')
+	if (argnum != 3)
 		return (false);
-	while (arguments[1][i] != '\0')
+	while (arguments[1][i])
 	{
 		if (i == 0)
 		{
-			if (ft_isnum(arguments[1][i]) == false)
-				return (false);
-			temp = ft_isdigit(arguments[1][i]);
+			temp = ft_isnum(arguments[1][i]);
+			i++;
 		}
-		else if (ft_isdigit(arguments[1][i]) == false)
+		if (temp == false)
+			return (false);
+		if (ft_isdigit(arguments[1][i] == 0) && temp == true)
 			return (false);
 		i++;
 	}
 	return (true);
 }
 
-void	convert_to_binary(char c, int pid)
+t_info	*info_manage(void)
 {
-	int	bit;
+	static t_info	info;
 
-	bit = 0;
-	while (bit < 8)
-	{
-		if (c & (1 << bit))
-			kill(pid, SIGUSR1);
-		else if (((c >> bit) & 1) == 0)
-			kill(pid, SIGUSR2);
-		usleep(125);
-		bit++;
-	}
-	return ;
+	return (&info);
 }
 
-void	begin_message(t_info *info)
+int	convert_to_binary(char c, int pid, int bit)
 {
-	int	i;
+	if (c & (1 << bit))
+		return (kill(pid, SIGUSR1));
+	else
+		return (kill(pid, SIGUSR2));
+}
 
-	i = 0;
-	while (info->string[i])
+void	begin_message(int signal)
+{
+	static size_t	i = 0;
+	static int		bit = 1;
+	t_info			*info;
+	int				itemp;
+	int				bittemp;
+
+	if (signal == SIGUSR2)
+		exit(0);
+	info = info_manage();
+	bittemp = bit;
+	itemp = i;
+	bit++;
+	if (bit == 8)
 	{
-		convert_to_binary(info->string[i], info->pid);
+		bit = 0;
 		i++;
 	}
+	convert_to_binary(info->string[itemp], info->pid, bittemp);
 }
 
 int	main(int argc, char **argv)
 {
-	t_info *info;
+	t_info	*info;
 
-	info = malloc(sizeof(t_info));
+	info = info_manage();
 	if (parse_args(argc, argv) == false)
 	{
 		write(2, "INPUT ERROR\n", 12);
@@ -77,7 +86,13 @@ int	main(int argc, char **argv)
 	}
 	info->pid = ft_atoi(argv[1]);
 	info->string = argv[2];
-	begin_message(info);
-	free(info);
-	return (0);
+	signal(SIGUSR1, begin_message);
+	signal(SIGUSR2, begin_message);
+	if (convert_to_binary(info->string[0], info->pid, 0) != 0)
+	{
+		write(2, "PID ERROR\n", 10);
+		exit(1);
+	}
+	while (true)
+		pause();
 }
