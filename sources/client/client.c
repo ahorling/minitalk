@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/31 17:37:36 by ahorling      #+#    #+#                 */
-/*   Updated: 2022/11/04 19:44:22 by ahorling      ########   odam.nl         */
+/*   Updated: 2022/11/04 20:03:28 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ bool	parse_args(int argnum, char **arguments)
 	i = 0;
 	temp = true;
 	if (argnum != 3)
+		return (false);
+	if (ft_atoi(arguments[1]) == 0)
 		return (false);
 	while (arguments[1][i])
 	{
